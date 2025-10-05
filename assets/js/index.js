@@ -695,9 +695,6 @@ function searchWord() {
         "كعب":"Jɨttɨ",
         "عكس":"korroŋ",
         "عديل":"Wǎ̱rɨg",
-        function searchWord() {
-    const wordInput = document.getElementById("word").value.toLowerCase();
-    const dictionary = {
         "فور": "is the most spoken language by majority fur tribe in darfur.",
         "leg": "Taar",
         "star":"Úrí",
@@ -1848,8 +1845,3 @@ function searchWord() {
         resultDiv.innerHTML = `<strong>${wordInput}:</strong> Definition not found.`;
     }
 }
-    }
-            
-
-
-
