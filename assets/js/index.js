@@ -1,5 +1,7 @@
 function searchWord() {
-    const wordInput = document.getElementById("word").value.toLowerCase();
+    const wordInput = document.getElementById("word").value.toLowerCase().trim();
+    const resultDiv = document.getElementById("result");
+    
     const dictionary = {
         "فور": "is the most spoken language by majority fur tribe in darfur.",
         "leg": "Taar",
@@ -1838,10 +1840,45 @@ function searchWord() {
         "scarry" :" ka̱lɨ́ŋ-i",
         };
 
-    const resultDiv = document.getElementById("result");
+
+    // Check if input is empty
+    if (wordInput === "") {
+        resultDiv.innerHTML = "⚠️ Please enter a word to search!";
+        resultDiv.style.background = "linear-gradient(135deg, #ffe6e6 0%, #ffd6d6 100%)";
+        resultDiv.style.borderLeft = "6px solid #f44336";
+        return;
+    }
+
+    // Search for the word
     if (dictionary[wordInput]) {
-        resultDiv.innerHTML = `<strong>${wordInput}:</strong> ${dictionary[wordInput]}`;
+        resultDiv.innerHTML = `<strong>English:</strong> ${wordInput}<br><strong>Fur:</strong> ${dictionary[wordInput]}`;
+        resultDiv.style.background = "linear-gradient(135deg, #d4f4dd 0%, #b8e6c3 100%)";
+        resultDiv.style.borderLeft = "6px solid #4caf50";
     } else {
-        resultDiv.innerHTML = `<strong>${wordInput}:</strong> Definition not found.`;
+        // Try to find partial matches
+        const suggestions = Object.keys(dictionary).filter(key => 
+            key.includes(wordInput) || wordInput.includes(key)
+        );
+
+        if (suggestions.length > 0) {
+            resultDiv.innerHTML = `❓ Word not found. Did you mean: <strong>${suggestions.slice(0, 3).join(", ")}</strong>?`;
+            resultDiv.style.background = "linear-gradient(135deg, #fff4e6 0%, #ffe6cc 100%)";
+            resultDiv.style.borderLeft = "6px solid #ff9800";
+        } else {
+            resultDiv.innerHTML = "❌ Word not found in dictionary. Please try another word.";
+            resultDiv.style.background = "linear-gradient(135deg, #ffe6e6 0%, #ffd6d6 100%)";
+            resultDiv.style.borderLeft = "6px solid #f44336";
+        }
     }
 }
+
+// Add event listener for Enter key
+document.addEventListener('DOMContentLoaded', function() {
+    const wordInput = document.getElementById("word");
+    
+    wordInput.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            searchWord();
+        }
+    });
+});
